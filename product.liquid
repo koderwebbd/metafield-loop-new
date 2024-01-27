@@ -1,0 +1,25 @@
+{% assign highlights = product.metafields.highlight %}
+  {% assign highlight_size = highlights.size %}
+
+  {% assign splitHighlightSize = highlight_size | divided_by: 2.0 | ceil   %}
+  {% assign splitSecondHighlightSize = highlight_size | minus: splitHighlightSize   %}
+
+  {%- if highlights -%}
+    <div class="prose highlights_text">
+      {% assign i = 0 %}
+      <ul class="highlight">
+      {% for test in  highlights limit: splitHighlightSize %}
+        {% assign i = i | plus: 1 %}
+        {% assign key = 'text_' | append:i  %}
+         <li class="highlight_items">{{ highlights[key].value | newline_to_br  }}</li>
+      {% endfor %}
+      </ul>
+      <ul class="highlight">
+      {% for test in  highlights offset: splitSecondHighlightSize %}
+        {% assign i = i | plus: 1 %}
+        {% assign key = 'text_' | append:i  %}
+         <li class="highlight_items">{{ highlights[key].value | newline_to_br  }}</li>
+      {% endfor %}
+      </ul>
+    </div>
+  {%- endif -%}
